@@ -1,0 +1,448 @@
+{
+  "runner": "Newman (Postman collection runner)",
+  "date_utc": "2026-10-11",
+  "django_version": "5.2.18",
+  "stats": {
+    "iterations": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "items": {
+      "total": 9,
+      "pending": 0,
+      "failed": 0
+    },
+    "scripts": {
+      "total": 9,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequests": {
+      "total": 9,
+      "pending": 0,
+      "failed": 0
+    },
+    "requests": {
+      "total": 9,
+      "pending": 0,
+      "failed": 0
+    },
+    "tests": {
+      "total": 9,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 13,
+      "pending": 0,
+      "failed": 0
+    },
+    "testScripts": {
+      "total": 9,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequestScripts": {
+      "total": 0,
+      "pending": 0,
+      "failed": 0
+    }
+  },
+  "failures": [],
+  "executions": [
+    {
+      "name": "Create reporter",
+      "method": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8765",
+        "path": [
+          "api",
+          "reporters",
+          ""
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "request_body": {
+        "mode": "raw",
+        "raw": "{\n  \"id\": 1,\n  \"name\": \"Alex Kim\",\n  \"email\": \"alex@example.com\",\n  \"team\": \"backend\"\n}",
+        "options": {
+          "raw": {
+            "language": "json"
+          }
+        }
+      },
+      "status": "Created",
+      "status_code": 201,
+      "response_body": {
+        "id": 1,
+        "name": "Alex Kim",
+        "email": "alex@example.com",
+        "team": "backend"
+      },
+      "assertions": [
+        {
+          "assertion": "Reporter saved: 201",
+          "skipped": false
+        },
+        {
+          "assertion": "Reporter ID is 1",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "Get all reporters",
+      "method": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8765",
+        "path": [
+          "api",
+          "reporters",
+          ""
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "request_body": null,
+      "status": "OK",
+      "status_code": 200,
+      "response_body": [
+        {
+          "id": 1,
+          "name": "Alex Kim",
+          "email": "alex@example.com",
+          "team": "backend"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion": "Status 200",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "Get reporter by ID",
+      "method": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8765",
+        "path": [
+          "api",
+          "reporters",
+          ""
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [
+          {
+            "key": "id",
+            "value": "1"
+          }
+        ],
+        "variable": []
+      },
+      "request_body": null,
+      "status": "OK",
+      "status_code": 200,
+      "response_body": {
+        "id": 1,
+        "name": "Alex Kim",
+        "email": "alex@example.com",
+        "team": "backend"
+      },
+      "assertions": [
+        {
+          "assertion": "Status 200",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "Create critical issue",
+      "method": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8765",
+        "path": [
+          "api",
+          "issues",
+          ""
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "request_body": {
+        "mode": "raw",
+        "raw": "{\n  \"id\": 1,\n  \"title\": \"Login button not working on mobile\",\n  \"description\": \"Users on iOS 17 cannot tap the login button\",\n  \"status\": \"open\",\n  \"priority\": \"critical\",\n  \"reporter_id\": 1\n}",
+        "options": {
+          "raw": {
+            "language": "json"
+          }
+        }
+      },
+      "status": "Created",
+      "status_code": 201,
+      "response_body": {
+        "id": 1,
+        "title": "Login button not working on mobile",
+        "description": "Users on iOS 17 cannot tap the login button",
+        "status": "open",
+        "priority": "critical",
+        "reporter_id": 1,
+        "message": "[URGENT] Login button not working on mobile — needs immediate attention"
+      },
+      "assertions": [
+        {
+          "assertion": "Issue created: 201",
+          "skipped": false
+        },
+        {
+          "assertion": "Urgent message",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "Get all issues",
+      "method": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8765",
+        "path": [
+          "api",
+          "issues",
+          ""
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "request_body": null,
+      "status": "OK",
+      "status_code": 200,
+      "response_body": [
+        {
+          "id": 1,
+          "title": "Login button not working on mobile",
+          "description": "Users on iOS 17 cannot tap the login button",
+          "status": "open",
+          "priority": "critical",
+          "reporter_id": 1
+        }
+      ],
+      "assertions": [
+        {
+          "assertion": "Status 200",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "Get issue by ID",
+      "method": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8765",
+        "path": [
+          "api",
+          "issues",
+          ""
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [
+          {
+            "key": "id",
+            "value": "1"
+          }
+        ],
+        "variable": []
+      },
+      "request_body": null,
+      "status": "OK",
+      "status_code": 200,
+      "response_body": {
+        "id": 1,
+        "title": "Login button not working on mobile",
+        "description": "Users on iOS 17 cannot tap the login button",
+        "status": "open",
+        "priority": "critical",
+        "reporter_id": 1
+      },
+      "assertions": [
+        {
+          "assertion": "Status 200",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "Filter open issues",
+      "method": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8765",
+        "path": [
+          "api",
+          "issues",
+          ""
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [
+          {
+            "key": "status",
+            "value": "open"
+          }
+        ],
+        "variable": []
+      },
+      "request_body": null,
+      "status": "OK",
+      "status_code": 200,
+      "response_body": [
+        {
+          "id": 1,
+          "title": "Login button not working on mobile",
+          "description": "Users on iOS 17 cannot tap the login button",
+          "status": "open",
+          "priority": "critical",
+          "reporter_id": 1
+        }
+      ],
+      "assertions": [
+        {
+          "assertion": "Status 200",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "Create issue with empty title (400)",
+      "method": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8765",
+        "path": [
+          "api",
+          "issues",
+          ""
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "request_body": {
+        "mode": "raw",
+        "raw": "{\n  \"id\": 2,\n  \"title\": \"\",\n  \"description\": \"Users on iOS 17 cannot tap the login button\",\n  \"status\": \"open\",\n  \"priority\": \"critical\",\n  \"reporter_id\": 1\n}",
+        "options": {
+          "raw": {
+            "language": "json"
+          }
+        }
+      },
+      "status": "Bad Request",
+      "status_code": 400,
+      "response_body": {
+        "error": "Title cannot be empty"
+      },
+      "assertions": [
+        {
+          "assertion": "Validation failed: 400",
+          "skipped": false
+        },
+        {
+          "assertion": "Blank title error",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "Missing issue (404)",
+      "method": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8765",
+        "path": [
+          "api",
+          "issues",
+          ""
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [
+          {
+            "key": "id",
+            "value": "999"
+          }
+        ],
+        "variable": []
+      },
+      "request_body": null,
+      "status": "Not Found",
+      "status_code": 404,
+      "response_body": {
+        "error": "Issue not found"
+      },
+      "assertions": [
+        {
+          "assertion": "Not found: 404",
+          "skipped": false
+        },
+        {
+          "assertion": "Issue missing error",
+          "skipped": false
+        }
+      ]
+    }
+  ]
+}

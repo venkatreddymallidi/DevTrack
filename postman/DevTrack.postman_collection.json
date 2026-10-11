@@ -1,0 +1,226 @@
+{
+  "info": {
+    "name": "DevTrack API",
+    "description": "Run Create reporter before creating issues. POSTs use IDs 1; on a repeat run, reset reporters.json and issues.json to [] or change IDs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create reporter",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 1,\n  \"name\": \"Alex Kim\",\n  \"email\": \"alex@example.com\",\n  \"team\": \"backend\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{base_url}}/api/reporters/"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Reporter saved: 201', () => pm.response.to.have.status(201));",
+              "pm.test('Reporter ID is 1', () => pm.expect(pm.response.json().id).to.eql(1));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get all reporters",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/reporters/"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', function() { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get reporter by ID",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/reporters/?id=1"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', function() { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create critical issue",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 1,\n  \"title\": \"Login button not working on mobile\",\n  \"description\": \"Users on iOS 17 cannot tap the login button\",\n  \"status\": \"open\",\n  \"priority\": \"critical\",\n  \"reporter_id\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{base_url}}/api/issues/"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Issue created: 201', () => pm.response.to.have.status(201));",
+              "pm.test('Urgent message', () => pm.expect(pm.response.json().message).to.eql('[URGENT] Login button not working on mobile — needs immediate attention'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get all issues",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/issues/"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', function() { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get issue by ID",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/issues/?id=1"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', function() { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Filter open issues",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/issues/?status=open"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', function() { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create issue with empty title (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 2,\n  \"title\": \"\",\n  \"description\": \"Users on iOS 17 cannot tap the login button\",\n  \"status\": \"open\",\n  \"priority\": \"critical\",\n  \"reporter_id\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{base_url}}/api/issues/"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Validation failed: 400', () => pm.response.to.have.status(400));",
+              "pm.test('Blank title error', () => pm.expect(pm.response.json().error).to.eql('Title cannot be empty'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Missing issue (404)",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/issues/?id=999"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Not found: 404', () => pm.response.to.have.status(404));",
+              "pm.test('Issue missing error', () => pm.expect(pm.response.json().error).to.eql('Issue not found'));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+"""Project URL configuration."""
+from django.urls import include, path
+
+urlpatterns = [
+    path('api/', include('issues.urls')),
+]
