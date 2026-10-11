@@ -135,14 +135,40 @@ Valid issue `status` values: `open`, `in_progress`, `resolved`, `closed`. Valid 
 
 ## Postman testing and screenshots
 
-1. Open **Postman → Import** and select `postman/DevTrack.postman_collection.json`.
-2. Start Django. Execute **Create reporter** first, then **Create critical issue** and **Create issue with empty title**.
-3. Capture an authentic Postman screenshot showing the **201 Created** success response and a second showing the **400 Bad Request** failure response. The Postman collection includes assertions for response status and JSON fields.
-4. Save the screenshots as `docs/postman-success.png` and `docs/postman-failure.png`. Commit both screenshots with your submission.
+The following screenshots were captured from **Postman Desktop 12.31.7**, using
+its Lightweight API Client against this project's running Django server on
+2026-10-11. The request URL, JSON body, HTTP status, and response body are visible.
 
-> **Verified:** The collection ran against a live Django 5.2.18 server using Newman: **9 requests and 13 assertions passed**, including real 201, 400 and 404 responses. See [`docs/newman-results.json`](docs/newman-results.json) and [`docs/validation-report.md`](docs/validation-report.md). Newman results are API evidence; the assignment's Postman UI screenshots still need to be added. See [`docs/README.md`](docs/README.md).
+### Successful request — 201 Created
 
-If you run the same POST requests again, you will receive **400 ID already exists**. Use a new ID or reset both `.json` files to `[]` while the server is stopped.
+`POST http://127.0.0.1:8000/api/issues/` creates a critical issue and returns the
+priority-specific urgent message. Reporter 1 was created before this request.
+
+![Postman success: 201 Created](docs/postman-success.png)
+
+### Validation failure — 400 Bad Request
+
+The same endpoint rejects issue 2 because its title is empty and returns
+`{"error": "Title cannot be empty"}`.
+
+![Postman failure: 400 Bad Request](docs/postman-failure.png)
+
+### Reproduce the requests
+
+1. Start Django with `python manage.py runserver`.
+2. Open Postman and import `postman/DevTrack.postman_collection.json`, or use the
+   Lightweight API Client to enter the requests manually.
+3. Execute **Create reporter** first, then **Create critical issue** and
+   **Create issue with empty title**. Select **Body → raw → JSON** for POSTs.
+
+The collection also ran against a live Django 5.2.18 server using Newman:
+**9 requests and 13 assertions passed**, including 201, 400, and 404 responses.
+See [`docs/newman-results.json`](docs/newman-results.json) and
+[`docs/validation-report.md`](docs/validation-report.md).
+
+If you run the same successful POST requests again, you will receive
+**400 ID already exists**. Use a new ID or reset both `.json` files to `[]` while
+the server is stopped.
 
 ## Automated tests
 
